@@ -1,6 +1,6 @@
 
- import Home from './paginas/home/Home';
- import './App.css';
+
+
 
 
 
@@ -35,16 +35,15 @@ export default App;*/
 
 export default App;*/
 
-import './App.css';
 
+import './App.css';
+import Home from './paginas/home/Home';
 
 function App() {
- 
   return (
     <>
-      <Home/>
+    <Home/>
     </>
-  );
+);
 }
-
 export default App;
