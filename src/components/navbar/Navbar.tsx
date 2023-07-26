@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 
 function Navbar() {
@@ -11,6 +12,8 @@ function Navbar() {
             <div className='text-2xl font-bold uppercase'>Blog Pessoal</div>
 
             <div className='flex gap-4'>
+              <Link to="/login"><div className='hover:underline'>Login</div></Link>
+              <Link to="/home"><div className='hover:underline'>Home</div></Link>
               <div className='hover:underline'>Postagens</div>
               <div className='hover:underline'>Temas</div>
               <div className='hover:underline'>Cadastrar tema</div>
