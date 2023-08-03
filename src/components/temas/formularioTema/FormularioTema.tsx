@@ -7,23 +7,29 @@ import Tema from '../../../models/Tema';
 import { atualizar, buscar, cadastrar } from '../../../services/Service';
 
 function FormularioTema() {
+  //variavel de estado referente a tema 
+   
   const [tema, setTema] = useState<Tema>({} as Tema);
-
+ 
+  // variavel que vai acessar o useNavigate (direcionando o usuario)
   let navigate = useNavigate();
 
-  const { id } = useParams<{ id: string }>();
+  // acessar nossa url e pegar o paramentro(id)( capturar o ID ) undefined/indefinido quando se usa com useparams o numero vira string porque passará pela url
+  const { id } = useParams<{ id: string }>(); 
 
+  
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
 
   async function buscarPorId(id: string) {
+    //buscando um tema pelo id
     await buscar(`/temas/${id}`, setTema, {
       headers: {
         Authorization: token,
       },
     });
   }
-
+   //useEffect:verificar se o id está presente se ele é difente ou indefinido...
   useEffect(() => {
     if (id !== undefined) {
       buscarPorId(id)
