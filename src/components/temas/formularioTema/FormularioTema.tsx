@@ -1,35 +1,32 @@
-
-
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthContext';
 import Tema from '../../../models/Tema';
 import { atualizar, buscar, cadastrar } from '../../../services/Service';
+import { toastAlerta } from '../../../utils/toastAlerta';
 
+//variavel de estado referente a tema 
 function FormularioTema() {
-  //variavel de estado referente a tema 
-   
   const [tema, setTema] = useState<Tema>({} as Tema);
- 
+
   // variavel que vai acessar o useNavigate (direcionando o usuario)
   let navigate = useNavigate();
 
   // acessar nossa url e pegar o paramentro(id)( capturar o ID ) undefined/indefinido quando se usa com useparams o numero vira string porque passará pela url
-  const { id } = useParams<{ id: string }>(); 
+  const { id } = useParams<{ id: string }>();
 
-  
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
 
+  //buscando um tema pelo id
   async function buscarPorId(id: string) {
-    //buscando um tema pelo id
     await buscar(`/temas/${id}`, setTema, {
       headers: {
         Authorization: token,
       },
     });
   }
-   //useEffect:verificar se o id está presente se ele é difente ou indefinido...
+//useEffect:verificar se o id está presente se ele é diferente de indefinido...
   useEffect(() => {
     if (id !== undefined) {
       buscarPorId(id)
@@ -56,15 +53,15 @@ function FormularioTema() {
           }
         })
 
-        alert('Tema atualizado com sucesso')
+        toastAlerta('Tema atualizado com sucesso', 'sucesso')
         retornar()
 
       } catch (error: any) {
         if (error.toString().includes('403')) {
-          alert('O token expirou, favor logar novamente')
+          toastAlerta('O token expirou, favor logar novamente', 'info')
           handleLogout()
         } else {
-          alert('Erro ao atualizar o Tema')
+          toastAlerta('Erro ao atualizar o Tema', 'erro')
         }
 
       }
@@ -77,14 +74,14 @@ function FormularioTema() {
           }
         })
 
-        alert('Tema cadastrado com sucesso')
+        toastAlerta('Tema cadastrado com sucesso', 'sucesso')
 
       } catch (error: any) {
         if (error.toString().includes('403')) {
-          alert('O token expirou, favor logar novamente')
+          toastAlerta('O token expirou, favor logar novamente', 'info')
           handleLogout()
         } else {
-          alert('Erro ao cadastrado o Tema')
+          toastAlerta('Erro ao cadastrado o Tema', 'erro')
         }
       }
     }
@@ -98,7 +95,7 @@ function FormularioTema() {
 
   useEffect(() => {
     if (token === '') {
-      alert('Você precisa estar logado');
+      toastAlerta('Você precisa estar logado', 'info');
       navigate('/login');
     }
   }, [token]);
